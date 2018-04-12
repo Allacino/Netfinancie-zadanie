@@ -1,0 +1,32 @@
+body {
+    font-size: 14px;
+}
+
+.navbar-brand {
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+}
+.navbar-brand:hover,
+.navbar-brand:focus {
+    text-decoration: none;
+}
+
+h4{
+    font-weight: bold;
+}
+.form-control {
+    font-size: 14px;
+}
+
+.btn {
+    font-size: 14px;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: separate;
+    border-spacing: 2px;
+    text-align: center;
+}
