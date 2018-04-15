@@ -15,19 +15,30 @@ class CreateUsersTable extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id')->index();
-            $table->string('meno');
-            $table->string('priezvisko');
-            $table->string('ulica');
-            $table->integer('cislo');
-            $table->integer('psc');
-            $table->string('mesto');
+            $table->string('meno')->nullable();
+            $table->string('priezvisko')->nullable();
+            $table->string('ulica')->nullable();
+            $table->integer('cislo')->nullable();
+            $table->string('psc')->nullable();
+            $table->string('mesto')->nullable();
             $table->string('login')->unique();
             $table->string('heslo');
             $table->string('email')->unique();
-            $table->string('popis');
-            $table->enum('stav',['a','b','c']);
+            $table->string('popis')->nullable();
+            $table->enum('stav',['a','b','c'])->nullable();
+            $table->string('rememberToken');
             $table->timestamps();
         });
+
+        DB::table('users')->insert(
+            [
+                'login' => 'admin',
+
+//                'heslo' => password_hash('admin123',1),
+                'heslo' => md5('admin123'),
+                'email' => 'admin@netfinancie.com',
+                'rememberToken' => str_random(10)
+        ]);
     }
 
     /**

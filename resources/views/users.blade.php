@@ -14,7 +14,40 @@
                         </div>
                     @endif
 
-                    Zobrazenie vsetkych userov ...
+                    <h1 style="text-align: center">Zoznam užívateľov [{{ count($users) }}]</h1>
+                        {{--header-fixed--}}
+                        <table id="tableUsers" class="table table-hover">
+                        {{--<table class="scroll">--}}
+                            <thead>
+                            <tr>
+                                {{--<th>#</th>--}}
+                                <th onclick="sortTable(0)">LOGIN <i class="fas fa-sort float-right"></i></th>
+                                <th onclick="sortTable(1)">EMAIL <i class="fas fa-sort float-right"></i></th>
+                                <th onclick="sortTable(2)">MENO <i class="fas fa-sort float-right"></i></th>
+                                <th onclick="sortTable(3)">PRIEZVISKO <i class="fas fa-sort float-right"></i></th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            @forelse ($users as $user)
+                                <tr value="{{ $user->id }}">
+                                    {{--<td>{{ $loop->iteration }}</td>--}}
+                                    <td class="sort">{{ $user->login }}</td>
+                                    <td class="sort">{{ $user->email }}</td>
+                                    <td class="sort">{{ $user->meno }}</td>
+                                    <td class="sort">{{ $user->priezvisko }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td COLSPAN="4">NO USERS ...</td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    <h2 style="text-align: center">Detailné informácie užívateľa :</h2>
+
+                        @include('form')
                 </div>
             </div>
         </div>

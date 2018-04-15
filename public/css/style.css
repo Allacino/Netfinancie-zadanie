@@ -25,8 +25,19 @@ h4{
     font-size: 14px;
 }
 table, th, td {
-    border: 1px solid black;
+    border: 1px solid #ddd;
     border-collapse: separate;
     border-spacing: 2px;
     text-align: center;
 }
+.table > thead > tr > th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #ddd;
+}
+.table > tbody > tr > td {
+    border-top: 1px solid #ddd;
+}
+th {
+    cursor: pointer;
+}
+/*Fixed Header Scrolling Table*/

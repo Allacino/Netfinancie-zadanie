@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/users';
 
     /**
      * Create a new controller instance.
@@ -74,6 +74,7 @@ class RegisterController extends Controller
             'stav' => $data['stav'],
             'login' => $data['login'],
             'email' => $data['email'],
+            'rememberToken' => str_random(10),
 //            'password' => Hash::make($data['password']),
             'heslo' => md5($data['heslo']) // Pole `heslo` je v DB zašifrované pomocou MD5
         ]);
