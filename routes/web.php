@@ -14,22 +14,19 @@
 
 use App\User;
 
+// nemam domovsku stranku tak redirektujem priamo na zadanie
+Route::get('/', function () {
+    return redirect('/zadanie');
+});
+
 Route::get('/zadanie', function () {
     return view('zadanie');
 });
 
-Route::get('/vypocet-ceny-ubytovania', function () {
-    //todo budem robit TRAIT na vypocet
-    return view('vypocet');
-});
-Route::get('/users', function () {
-//    $users = User::paginate(8);
-    $users = User::all();
-    return view('users',compact('users'));
-});
+Route::get('/test', 'UserController@calculatePrice');
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home');
-//Route::get('/users', 'UserController@index')->name('users');
-//Route::get('/vypocet-ceny', 'UserController@vypocet');
+// URL pre zadanie 1 a zadanie 2
+Route::get('/users', 'UserController@index')->name('users');
+Route::get('/vypocet-ceny-ubytovania', 'UserController@vypocetCenyUbytovania');

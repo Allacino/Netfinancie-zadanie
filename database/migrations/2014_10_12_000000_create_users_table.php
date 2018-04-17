@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\Hash;
+
 
 class CreateUsersTable extends Migration
 {
@@ -22,11 +24,11 @@ class CreateUsersTable extends Migration
             $table->string('psc')->nullable();
             $table->string('mesto')->nullable();
             $table->string('login')->unique();
-            $table->string('heslo');
+            $table->string('password');
             $table->string('email')->unique();
             $table->string('popis')->nullable();
             $table->enum('stav',['a','b','c'])->nullable();
-            $table->string('rememberToken');
+            $table->rememberToken();
             $table->timestamps();
         });
 
@@ -34,10 +36,9 @@ class CreateUsersTable extends Migration
             [
                 'login' => 'admin',
 
-//                'heslo' => password_hash('admin123',1),
-                'heslo' => md5('admin123'),
+                'password' => Hash::make('admin123'),//password_hash('admin123',1),
+//                'heslo' => md5('admin123'),
                 'email' => 'admin@netfinancie.com',
-                'rememberToken' => str_random(10)
         ]);
     }
 

@@ -42,19 +42,19 @@
 </div>
 
 <div class="form-group row">
-    <label for="password-confirm" class="col-md-4 col-form-label text-md-right"><span style="color: red">* </span>{{ __('Potvrd heslo :') }}</label>
+    <label for="password_confirm" class="col-md-4 col-form-label text-md-right"><span style="color: red">* </span>{{ __('Potvrd heslo :') }}</label>
 
     <div class="col-md-6">
-        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+        <input id="password_confirm" type="password" class="form-control" name="password_confirmation" required>
     </div>
 </div>
 <hr>
 {{--meno--}}
 <div class="form-group row">
-    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Meno :') }}</label>
+    <label for="meno" class="col-md-4 col-form-label text-md-right">{{ __('Meno :') }}</label>
 
     <div class="col-md-6">
-        <input id="name" type="text" class="form-control{{ $errors->has('meno') ? ' is-invalid' : '' }}" name="meno" placeholder="Meno" value="{{ old('meno') }}" autofocus>
+        <input id="meno" type="text" class="form-control{{ $errors->has('meno') ? ' is-invalid' : '' }}" name="meno" value="{{ old('meno') }}">
 
         @if ($errors->has('meno'))
             <span class="invalid-feedback">
@@ -112,7 +112,7 @@
     <label for="psc" class="col-md-4 col-form-label text-md-right">{{ __('PSC :') }}</label>
 
     <div class="col-md-6">
-        <input id="psc" type="email" class="form-control{{ $errors->has('psc') ? ' is-invalid' : '' }}" name="psc" value="{{ old('psc') }}">
+        <input id="psc" type="text" class="form-control{{ $errors->has('psc') ? ' is-invalid' : '' }}" name="psc" value="{{ old('psc') }}">
 
         @if ($errors->has('psc'))
             <span class="invalid-feedback">
@@ -154,8 +154,12 @@
     <label for="stav" class="col-md-4 col-form-label text-md-right">{{ __('Stav :') }}</label>
 
     <div class="col-md-6">
-        <input id="stav" type="text" class="form-control{{ $errors->has('stav') ? ' is-invalid' : '' }}" name="stav" value="{{ old('stav') }}">
-
+        {{--<input id="stav" type="text" class="form-control{{ $errors->has('stav') ? ' is-invalid' : '' }}" name="stav" value="{{ old('stav') }}">--}}
+        <select id="stav" class="form-control{{ $errors->has('stav') ? ' is-invalid' : '' }}" name="stav" value="{{ old('stav') }}">
+            <option>a</option>
+            <option>b</option>
+            <option>c</option>
+        </select>
         @if ($errors->has('stav'))
             <span class="invalid-feedback">
                                         <strong>{{ $errors->first('stav') }}</strong>

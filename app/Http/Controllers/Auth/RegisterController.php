@@ -51,7 +51,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'login' => 'required|string|max:255',
             'email' => 'string|email|max:255|unique:users',
-            'heslo' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:6|confirmed',
         ]);
     }
 
@@ -74,9 +74,8 @@ class RegisterController extends Controller
             'stav' => $data['stav'],
             'login' => $data['login'],
             'email' => $data['email'],
-            'rememberToken' => str_random(10),
-//            'password' => Hash::make($data['password']),
-            'heslo' => md5($data['heslo']) // Pole `heslo` je v DB zašifrované pomocou MD5
+//            'password' => md5($data['password']),
+            'password' => Hash::make($data['password'])
         ]);
     }
 }

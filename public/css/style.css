@@ -14,6 +14,10 @@ body {
     text-decoration: none;
 }
 
+.dropdown-menu {
+    font-size: 14px;
+}
+
 h4{
     font-weight: bold;
 }
@@ -24,7 +28,7 @@ h4{
 .btn {
     font-size: 14px;
 }
-table, th, td {
+table, thead, th, td, tr {
     border: 1px solid #ddd;
     border-collapse: separate;
     border-spacing: 2px;
@@ -32,8 +36,17 @@ table, th, td {
 }
 .table > thead > tr > th {
     vertical-align: bottom;
-    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
 }
+.table > caption + thead > tr:first-child > th,
+.table > colgroup + thead > tr:first-child > th,
+.table > thead:first-child > tr:first-child > th,
+.table > caption + thead > tr:first-child > td,
+.table > colgroup + thead > tr:first-child > td,
+.table > thead:first-child > tr:first-child > td {
+    border-top: 1px solid #ddd;
+}
+
 .table > tbody > tr > td {
     border-top: 1px solid #ddd;
 }

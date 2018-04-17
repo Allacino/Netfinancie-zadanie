@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
+use Carbon\Carbon;
+use DateInterval;
+use DatePeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -18,7 +23,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users');
+        $users = User::all();
+
+        return view('users',compact('users'));
     }
 
     /**
@@ -85,5 +92,211 @@ class UserController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function vypocetCenyUbytovania()
+    {
+        $cennik = collect([
+            "tarif" => [
+                [
+                    'datum_od'=>'01.03.2018',
+                    'datum_do'=>'03.03.2018',
+                    'sadzba' => 'Prvé tri noci sú drahšie',
+                    'cena_dospely' => 8,
+                    'cena_dieta' => 1
+                ],
+                [
+                    'datum_od'=>'06.03.2018',
+                    'datum_do'=>'08.03.2018',
+                    'sadzba' => 'Marcová akcia',
+                    'cena_dospely' => 4,
+                    'cena_dieta' => 3.5
+                ],
+                [
+                    'datum_od'=>'13.03.2018',
+                    'datum_do'=>'16.03.2018',
+                    'sadzba' => 'Jarná akcia',
+                    'cena_dospely' => 3.5,
+                    'cena_dieta' => 2.5
+                ]
+            ],
+            'cena_standard_dospely' => 6,
+            'cena_standard_dieta' => 4,
+            'cena_standard_poplatok' => 0.66
+        ]);
+        $pocet_dospely = 2;
+        $pocet_deti_pristelka = 3;
+        $pocet_deti = 1;
+
+        $pocetOsob = $pocet_dospely + $pocet_deti + $pocet_deti_pristelka;
+        $poplatok_pobyt = $pocetOsob * $cennik->get('cena_standard_poplatok');
+
+        $ubytovanie_od = Carbon::parse('01.03.2018');
+        $ubytovanie_do = Carbon::parse('15.03.2018');
+//        $pocetDni = $ubytovanie_od->diffInDays($ubytovanie_do);
+        $pocetNoci = [];
+
+
+//        $firstNight = $ubytovanie_od;
+        $lastNight = $ubytovanie_do->subDay();
+        $noc = 1;
+        while ($ubytovanie_od->lte($lastNight)) {
+            $night_date_from = $ubytovanie_od->copy()->format('d-m-Y');
+            $night_date_to = $ubytovanie_od->addDay()->format('d-m-Y');
+
+            $tarify = $cennik->get('tarif');
+
+//            $first3 = $tarify->where('sadzba','Prvé tri noci sú drahšie');
+
+            if ($noc < 4 ) {
+                $cost_adults=8;
+                $cost_children=1;
+                $sadzba= 'Prvé tri noci sú drahšie';
+            } elseif ($noc < 8) {
+//                pride podmienka
+                $cost_adults=4;
+                $cost_children=3;
+                $sadzba= 'Marcová akcia';
+            } else {
+                $cost_adults = $cennik->get('cena_standard_dospely');
+                $cost_children = $cennik->get('cena_standard_dieta');
+                $sadzba= 'Jarná akcia';
+            }
+
+            $noc++;
+            $nights[] = [
+                'night_date_from' => $night_date_from,
+                'night_date_to' => $night_date_to,
+                'cost_adults' => $cost_adults,
+                'cost_children' => $cost_children,
+                'sadzba' => $sadzba
+            ];
+        }
+
+//        dd($nights);
+
+//        $platny_tarif = $cennik->where('datum_od','<',$ubytovanie_od);
+
+//        $cennik->dd();
+
+        return view('vypocet');
+//        return $cennik;
+    }
+
+    public function  calculatePrice()
+    {
+        // premenne "obchodu", ktore by sa mali tahat z konfiguracie alebo db
+        // pre nas priklad stacia zatial natvrdo
+        $prices = [
+            'priceForAdult' => 6.0,
+            'priceForChildrenWithBed' => 4.0,
+        ];
+        $standardPrice = 0.66;
+        // na akcie pouzivam asociativne pole, ale krajsie by bolo zaobalit do objektu
+        $actions = [
+            [
+                'from' => Carbon::create(2011, 3, 1),
+                'to' => Carbon::create(2011, 3, 3),
+                'priceForAdult' => 8.0,
+                'priceForChildrenWithBed' => 1.0,
+            ],
+            [
+                'from' => Carbon::create(2011, 3, 6),
+                'to' => Carbon::create(2011, 3, 8),
+                'priceForAdult' => 4.0,
+                'priceForChildrenWithBed' => 3.5,
+            ],
+            [
+                'from' => Carbon::create(2011, 3, 5),
+                'to' => Carbon::create(2011, 3, 16),
+                'priceForAdult' => 3.5,
+                'priceForChildrenWithBed' => 2.5,
+            ],
+        ];
+        // porozbijame si akcie na intervaly (v zadani nebolo povedane, ktory ma prioritu, tak sa berie ten, ktory zacal neskor)
+        $normalisedActions = $this->normaliseDates($actions);
+        // vstupne premenne od zakaznika, neskor by sa mali posielat z nejakeho formularu a validovat
+        $from = Carbon::create(2011, 3, 1);
+        $to = Carbon::create(2011, 3, 15);
+        $adults = 2;
+        $children = 3;
+        $childrenWithoutBed = 1;
+        $childrenWithBed = $children - $childrenWithoutBed;
+        $totalPersons = $adults + $children;
+        $interval = new DateInterval('P1D');
+        $dateRange = new DatePeriod($from, $interval, $to);
+
+        // samotny vypocet ceny cez akcie a mimo akcie
+        $result = collect($dateRange)->map(function ($day) use ($normalisedActions, $prices) {
+            $interval = $this->interval($day, $normalisedActions);
+            if ($interval) {
+                return array_only($interval, ['priceForAdult', 'priceForChildrenWithBed']);
+            } else {
+                return $prices;
+            }
+        })->map(function ($item) use ($adults, $childrenWithBed) {
+            return $adults * $item['priceForAdult'] + $childrenWithBed * $item['priceForChildrenWithBed'];
+        })->sum();
+
+        // vypocet standardnej ceny pre vsetky osoby
+        $standardPriceForPersons = $totalPersons * $standardPrice;
+
+        // konecny vysledok
+        return $result + $standardPriceForPersons;
+    }
+
+    private function sortDates($collection)
+    {
+        return collect($collection)->sortBy(function ($item) {
+            // trochu hack zretazovat datumy pomocou oddelovaca
+            return $item['from']->format('d-m-Y') . '#' . $item['to']->format('d-m-Y');
+        })->tap(function ($collection) {
+            Log::debug('Values after sorting', $collection->values()->toArray());
+        })->values()->all();
+    }
+    public function normaliseDates($dates)
+    {
+        // usortime si podla datumu zaciatku a konca, aby sme neskor pocas iteracie mali istotu, ze porovnavame
+        // dva za sebou iduce intervaly
+        $sortedDays = $this->sortDates($dates);
+        $result = [];
+        for ($i = 0; $i < sizeof($sortedDays); $i++) {
+            for ($j = $i + 1; $j < sizeof($sortedDays); $j++) {
+                if ($this->isIntersection($sortedDays[$i], $sortedDays[$j])) {
+                    $result[] = $this->getIntervals($sortedDays[$i], $sortedDays[$j]);
+                } else {
+                    $result[] = [$sortedDays[$i]];
+                }
+            }
+        }
+        return collect($result)->flatten(1)->values()->all();
+    }
+
+    private function interval($day, $intervals)
+    {
+        foreach ($intervals as $interval) {
+            if ($day->greaterThanOrEqualTo($interval['from']) && $day->lessThanOrEqualTo($interval['to'])) {
+                return $interval;
+            }
+        }
+        return false;
+    }
+    private function isIntersection($firstDate, $secondDate)
+    {
+        return $firstDate['from']->lessThanOrEqualTo($secondDate['to']) && $firstDate['to']->greaterThanOrEqualTo($secondDate['from']);
+    }
+
+    private function getIntervals($dateA, $dateB)
+    {
+        if ($dateA['to']->greaterThan($dateB['to'])) {
+            $firstInterval = $dateA;
+            $firstInterval['to'] = $dateB['from']->copy()->subDay();
+            $secondInterval = $dateA;
+            $secondInterval['from'] = $dateB['to']->copy()->addDay();
+            return [$firstInterval, $dateB, $secondInterval];
+        } else {
+            $dateA['to'] = $dateB['from']->copy()->subDay();
+            return [$dateA];
+        }
     }
 }

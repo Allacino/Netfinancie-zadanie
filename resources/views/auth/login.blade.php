@@ -12,7 +12,7 @@
                         @csrf
 
                         <div class="form-group row">
-                            <label for="login" class="col-sm-4 col-form-label text-md-right">{{ __('Login :') }}</label>
+                            <label for="login" class="col-sm-4 col-form-label text-md-right">{{ __('Login') }}</label>
 
                             <div class="col-md-6">
                                 <input id="login" type="text" class="form-control{{ $errors->has('login') ? ' is-invalid' : '' }}" name="login" value="{{ old('login') }}" required autofocus>
@@ -26,14 +26,14 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Heslo :') }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Heslo') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control{{ $errors->has('heslo') ? ' is-invalid' : '' }}" name="heslo" required>
+                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
 
-                                @if ($errors->has('heslo'))
+                                @if ($errors->has('password'))
                                     <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('heslo') }}</strong>
+                                        <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
                             </div>

@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class LoginController extends Controller
 {
@@ -18,7 +21,10 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    // overwrite kvoli zmene prihlasovacieho atributu
+    use AuthenticatesUsers {
+        username as public customUsername;
+    }
 
     /**
      * Where to redirect users after login.
@@ -26,6 +32,7 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/users';
+
 
     /**
      * Create a new controller instance.
@@ -36,4 +43,20 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function customUsername()
+    {
+        return 'login';
+    }
+
+    public function logout(Request $request){
+        Auth::logout();
+        return redirect('/zadanie');
+    }
+
 }

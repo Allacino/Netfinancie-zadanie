@@ -16,7 +16,8 @@
 
                     <h1 style="text-align: center">Zoznam užívateľov [{{ count($users) }}]</h1>
                         {{--header-fixed--}}
-                        <table id="tableUsers" class="table table-hover">
+                        <table id="tableUsers" class="table">
+                        {{--<table id="tableUsers" class="table table-hover">--}}
                         {{--<table class="scroll">--}}
                             <thead>
                             <tr>
@@ -31,7 +32,9 @@
                             <tbody>
 
                             @forelse ($users as $user)
-                                <tr value="{{ $user->id }}">
+                                <tr class="trBody" value="{{ $user->id }}" data-user="{{ $user }}"
+                                onclick="setForm(this)">
+
                                     {{--<td>{{ $loop->iteration }}</td>--}}
                                     <td class="sort">{{ $user->login }}</td>
                                     <td class="sort">{{ $user->email }}</td>
@@ -45,9 +48,11 @@
                             @endforelse
                             </tbody>
                         </table>
-                    <h2 style="text-align: center">Detailné informácie užívateľa :</h2>
-
-                        @include('form')
+                    <h2 style="text-align: center">Detailné informácie užívateľa : <span id="userID"></span></h2>
+                        <br>
+                        <form id="userForm">
+                            @include('form')
+                        </form>
                 </div>
             </div>
         </div>
