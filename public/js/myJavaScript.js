@@ -86,9 +86,9 @@ function setForm(user) {
 
     // alert("Email : " + person['email']);
     document.getElementById("userID").innerText = "User ID " + person['id'];
-    document.getElementById("login").setAttribute('value', person['login']);
-    document.getElementById("email").setAttribute('value', person['email']);
-    document.getElementById("password").setAttribute('value', person['password']);
+    document.getElementById("formLogin").setAttribute('value', person['login']);
+    document.getElementById("formEmail").setAttribute('value', person['email']);
+    document.getElementById("formPassword").setAttribute('value', person['password']);
     document.getElementById("password_confirm").setAttribute('value', person['password']);
     document.getElementById("meno").setAttribute('value', person['meno']);
     document.getElementById("priezvisko").setAttribute('value', person['priezvisko']);

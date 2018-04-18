@@ -31,4 +31,5 @@ Auth::routes();
 Route::get('/users', 'UserController@index')->name('users');
 Route::post('/users', 'UserController@store')->name('users');
 Route::put('/users/{id}', 'UserController@update')->name('users');
-Route::get('/vypocet-ceny-ubytovania', 'UserController@vypocetCenyUbytovania');
+Route::get('/vypocet-ceny-ubytovania', 'UserController@showZadanie');
+Route::post('/vypocet-ceny-ubytovania', 'UserController@vypocetCenyUbytovania');

@@ -94,6 +94,13 @@ class UserController extends Controller
         //
     }
 
+    public function showZadanie()
+    {
+       // zobrazi vstupne hodnoty a datum cennika
+
+        return view('vypocet');
+    }
+
     public function vypocetCenyUbytovania()
     {
         $cennik = collect([
@@ -127,7 +134,7 @@ class UserController extends Controller
         $pocet_dospely = 2;
         $pocet_deti_pristelka = 3;
         $pocet_deti = 1;
-
+//dd($cennik);
         $pocetOsob = $pocet_dospely + $pocet_deti + $pocet_deti_pristelka;
         $poplatok_pobyt = $pocetOsob * $cennik->get('cena_standard_poplatok');
 
@@ -178,9 +185,12 @@ class UserController extends Controller
 //        $platny_tarif = $cennik->where('datum_od','<',$ubytovanie_od);
 
 //        $cennik->dd();
+//        {{ $vysledok }}
 
-        return view('vypocet');
-//        return $cennik;
+        $vysledokCeny = "Sem pride vysledok";
+
+        return view('vypocet')
+            ->with('vysledokCeny',$vysledokCeny);
     }
 
     public function  calculatePrice()

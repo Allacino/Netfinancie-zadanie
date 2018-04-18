@@ -28,7 +28,7 @@
                                 <th>Cena dieťa</th>
                             </tr>
                             <tr>
-                                <td><input style="width: 80px" type="text" value="01.03.2018"></td>
+                                <td><input style="width: 80px" type="text" value="01.03.2018" autofocus></td>
                                 <td><input style="width: 80px" type="text" value="03.03.2018"></td>
                                 <td>Prvé tri noci sú drahšie</td>
                                 <td>8 €</td>
@@ -56,6 +56,36 @@
                     <p>
                         Štandardný poplatok za každú osobu je <b>0,66 €</b> na celu dobu ubytovania.
                     </p>
+
+                    <h4 style="text-align: center">VSTUPNE HODNOTY</h4>
+                        <div class="float-right">
+                        <form method="POST" action="">
+                            @csrf
+                            <div class="form-group row mb-0">
+                                <div class="col-md-6 offset-md-4">
+                                    <button type="submit" class="btn btn-primary float-right">
+                                        {{ __('Vypocitat cenu') }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+
+                            <p>
+                                Ubytovanie od: <strong>01.03.2011</strong><br>
+                                ubytovanie do: <strong>15.03.2011</strong><br>
+                                Počet dospelých: <strong>2</strong><br>
+                                Počet detí: <strong>3</strong><br>
+                                Počet detí bez postele (na prístelku): <strong>1</strong><br>
+                            </p>
+
+                        <div class="clearfix">
+                            @isset($vysledokCeny)
+                                <hr>
+                                <h4 style="text-align: center">VYSLEDNA SUMA</h4>
+                                {{ $vysledokCeny }}
+                            @endisset
+                        </div>
                 </div>
             </div>
         </div>
