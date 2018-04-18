@@ -1,9 +1,10 @@
 {{--login--}}
 <div class="form-group row">
-    <label for="login" class="col-md-4 col-form-label text-md-right"><span style="color: red">* </span>{{ __('Login :') }}</label>
+    <label for="formLogin" class="col-md-4 col-form-label text-md-right"><span style="color: red">* </span>{{ __('Login :') }}</label>
 
     <div class="col-md-6">
-        <input id="login" type="text" class="form-control{{ $errors->has('login') ? ' is-invalid' : '' }}" name="login" value="{{ old('login') }}" required>
+        <input id="formLogin" type="text" class="form-control{{ $errors->has('login') ? ' is-invalid' : '' }}" name="login" value="{{ old('login') }}" required>
+        <div id="validLogin"></div>
 
         @if ($errors->has('login'))
             <span class="invalid-feedback">
@@ -14,12 +15,13 @@
 </div>
 {{--email--}}
 <div class="form-group row">
-    <label for="email" class="col-md-4 col-form-label text-md-right"><span style="color: red">* </span>{{ __('E-Mail :') }}</label>
+    <label for="formEmail" class="col-md-4 col-form-label text-md-right"><span style="color: red">* </span>{{ __('E-Mail :') }}</label>
 
     <div class="col-md-6">
-        <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+        <input id="formEmail" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
+        <div id="validEmail"></div>
 
-        @if ($errors->has('email'))
+    @if ($errors->has('email'))
             <span class="invalid-feedback">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </span>
@@ -28,15 +30,16 @@
 </div>
 {{--heslo--}}
 <div class="form-group row">
-    <label for="password" class="col-md-4 col-form-label text-md-right"><span style="color: red">* </span>{{ __('Heslo :') }}</label>
+    <label for="formPassword" class="col-md-4 col-form-label text-md-right"><span style="color: red">* </span>{{ __('Heslo :') }}</label>
 
     <div class="col-md-6">
-        <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+        <input id="formPassword" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
+        <div id="validPassword"></div>
 
         @if ($errors->has('password'))
             <span class="invalid-feedback">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
+                <strong>{{ $errors->first('password') }}</strong>
+            </span>
         @endif
     </div>
 </div>
@@ -46,6 +49,8 @@
 
     <div class="col-md-6">
         <input id="password_confirm" type="password" class="form-control" name="password_confirmation" required>
+        <div id="validConfirm"></div>
+
     </div>
 </div>
 <hr>

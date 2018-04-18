@@ -29,4 +29,6 @@ Auth::routes();
 
 // URL pre zadanie 1 a zadanie 2
 Route::get('/users', 'UserController@index')->name('users');
+Route::post('/users', 'UserController@store')->name('users');
+Route::put('/users/{id}', 'UserController@update')->name('users');
 Route::get('/vypocet-ceny-ubytovania', 'UserController@vypocetCenyUbytovania');

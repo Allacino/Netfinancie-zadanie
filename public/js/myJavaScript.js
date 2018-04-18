@@ -4,6 +4,11 @@
     //deklaracia premennych na ktore budeme odchytavat udalosti
     var tableRow = $("#tableUsers > tbody > tr");
 
+    // kliknutie na riadok
+    tableRow.on('click',function () {
+        console.log('Naplnenie formulara ...');
+    });
+
     // prechod na riadok
     tableRow.on('mouseover',function(e) {
         $(this).css("background","#ddd");
@@ -13,23 +18,68 @@
         $(this).css("background","white");
     });
 
+    // VALIDACIA LOGINU
+    $('#formLogin').on('change', function (e) {
+
+        var login = $(this).val(),
+            validLogin = $('#validLogin'),
+            reg;
+        console.log('Validacia loginu : ' + login);
+        reg = /^([A-Za-z0-9]{3,20})$/;
+        if (reg.test(login) == false)
+        {
+            validLogin.text('Invalid Login');
+            validLogin.css('color','red');
+            console.log("Invalid Login");
+        } else{
+            validLogin.text("Valid Login");
+            validLogin.css('color','DarkGreen');
+            console.log("Valid Login");
+        }
+    });
+
+    // VALIDACIA EMAILU
+    $('#formEmail').on('change', function (e) {
+
+        var email = $(this).val(),
+            validEmail = $('#validEmail'),
+            reg;
+        console.log('Validacia emailu : ' + email);
+        reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        if (reg.test(email) == false)
+        {
+            validEmail.text('Invalid E-Mail adress');
+            validEmail.css('color','red');
+            console.log("Invalid E-Mail adress");
+        } else{
+            validEmail.text("Valid E-Mail adress");
+            validEmail.css('color','DarkGreen');
+            console.log("Valid E-Mail adress");
+        }
+    });
+
+    // VALIDACIA PASSWORDU
+    $('#formPassword').on('change', function (e) {
+
+        var password = $(this).val(),
+            validPassword = $('#validPassword'),
+            reg;
+        console.log('Validacia passwordu : ' + password);
+        // reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        reg = /^([A-Za-z0-9_\-\.\#\+\~]{6,20})$/;
+        if (reg.test(password) == false)
+        {
+            validPassword.text('Invalid Password');
+            validPassword.css('color','red');
+            console.log("Invalid Password");
+        } else{
+            validPassword.text("Valid Password");
+            validPassword.css('color','DarkGreen');
+            console.log("Valid Password");
+        }
+    });
+
 })(jQuery);
-
-$(document).ready(function(){
-    // console.log('Document ist ready!');
-
-    // var table = $("#tableUsers");
-
-    // kliknutie na riadok
-    // tableRow.on('click',function(event) {
-    //     console.log('click');
-    // });
-
-    // kliknutie na riadok
-    // tableRow.on('mouseover',function (event){
-        // alert('OnMouseOver');
-    // });
-});
 
 function setForm(user) {
     var person = JSON.parse(user.getAttribute("data-user"));

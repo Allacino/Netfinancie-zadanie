@@ -32,8 +32,7 @@
                             <tbody>
 
                             @forelse ($users as $user)
-                                <tr class="trBody" value="{{ $user->id }}" data-user="{{ $user }}"
-                                onclick="setForm(this)">
+                                <tr class="trBody" value="{{ $user->id }}" data-user="{{ $user }}" onclick="setForm(this)">
 
                                     {{--<td>{{ $loop->iteration }}</td>--}}
                                     <td class="sort">{{ $user->login }}</td>
@@ -50,8 +49,23 @@
                         </table>
                     <h2 style="text-align: center">Detailné informácie užívateľa : <span id="userID"></span></h2>
                         <br>
-                        <form id="userForm">
+                        <form id="userForm" method="PUT">
+                            @csrf
+
                             @include('form')
+
+                            <div class="form-group row mb-0">
+                                <div class="col-md-6 offset-md-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        {{ __('Ulozit data') }}
+                                    </button>
+                                    alebo
+                                    <button type="submit" class="btn btn-link" formmethod="post" >
+                                        {{ __('Novy user') }}
+                                    </button>
+                                </div>
+                            </div>
+
                         </form>
                 </div>
             </div>

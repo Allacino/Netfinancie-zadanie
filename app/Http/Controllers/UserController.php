@@ -46,7 +46,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return 'vytvaram noveho usera';
     }
 
     /**
@@ -80,7 +80,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return 'ukladam zmenene data';
     }
 
     /**
