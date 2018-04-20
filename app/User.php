@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'meno','priezvisko','ulica','cislo','psc','mesto','login','popis','stav', 'email', 'password',
+        'meno','priezvisko','ulica','cislo','psc','mesto','login','popis','stav', 'email', 'password','remember_token'
     ];
 
     /**
@@ -24,5 +24,10 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
+        'password','remember_token'
     ];
+
+    public static function updateOrCreate($array, $values)
+    {
+    }
 }

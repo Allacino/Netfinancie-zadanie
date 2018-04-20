@@ -49,9 +49,11 @@
                         </table>
                     <h2 style="text-align: center">Detailné informácie užívateľa : <span id="userID"></span></h2>
                         <br>
-                        <form id="userForm" method="PUT">
+                        <form id="userForm" method="POST" action="{{ route('users') }}">
+                            {{--@method('PUT')--}}
                             @csrf
 
+                            <input name="userID" id="IDuser" type="hidden" value="">
                             @include('form')
 
                             <div class="form-group row mb-0">
@@ -60,8 +62,9 @@
                                         {{ __('Ulozit data') }}
                                     </button>
                                     alebo
-                                    <button type="submit" class="btn btn-link" formmethod="post" >
-                                        {{ __('Novy user') }}
+                                    <button type="submit" class="btn btn-link"
+                                            onclick="" >
+                                        {{ __('Vytvor nového usera') }}
                                     </button>
                                 </div>
                             </div>

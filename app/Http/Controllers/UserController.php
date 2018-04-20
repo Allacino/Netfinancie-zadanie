@@ -46,7 +46,33 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        return 'vytvaram noveho usera';
+        // overim ci je naplnene hiddenute pole s ID
+        $id = $request->input('userID');
+        if ($id) {
+            $request->validate([
+                'login' => 'required|string|max:255',
+                'email' => 'string|email|max:255',
+                'password' => 'required|string|min:6|confirmed',
+            ]);
+            Log::debug('Request je validny ');
+
+            $user = User::find($id);
+            $user->update($request->all());
+            Log::debug('User bol updatnuty : '.$user);
+        } else {
+            $request->validate([
+                'login' => 'required|string|max:255',
+                'email' => 'string|email|max:255|unique:users',
+                'password' => 'required|string|min:6|confirmed',
+            ]);
+            Log::debug('Request je validny ');
+            $user = User::create($request->all());
+            Log::debug('User bol vytvoreny : ' . $user);
+        }
+
+         return redirect()
+             ->back()
+             ->with('status','User "' . $user->login .'" bol uspesne ulozeny do DB.');
     }
 
     /**
@@ -80,7 +106,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return 'ukladam zmenene data';
+        // update riesim v metode store ako aj create
     }
 
     /**
@@ -97,31 +123,31 @@ class UserController extends Controller
     public function showZadanie()
     {
        // zobrazi vstupne hodnoty a datum cennika
-
+        Log::debug('Test na zapis do logu.');
         return view('vypocet');
     }
 
-    public function vypocetCenyUbytovania()
+    public function vypocetCenyUbytovania(Request $request)
     {
         $cennik = collect([
             "tarif" => [
                 [
-                    'datum_od'=>'01.03.2018',
-                    'datum_do'=>'03.03.2018',
+                    'datum_od'=> Carbon::parse($request->input('t1_od')),
+                    'datum_do'=> Carbon::parse($request->input('t1_do')),
                     'sadzba' => 'Prvé tri noci sú drahšie',
                     'cena_dospely' => 8,
                     'cena_dieta' => 1
                 ],
                 [
-                    'datum_od'=>'06.03.2018',
-                    'datum_do'=>'08.03.2018',
+                    'datum_od'=> Carbon::parse($request->input('t2_od')),
+                    'datum_do'=> Carbon::parse($request->input('t2_do')),
                     'sadzba' => 'Marcová akcia',
                     'cena_dospely' => 4,
                     'cena_dieta' => 3.5
                 ],
                 [
-                    'datum_od'=>'13.03.2018',
-                    'datum_do'=>'16.03.2018',
+                    'datum_od'=> Carbon::parse($request->input('t3_od')),
+                    'datum_do'=>Carbon::parse($request->input('t3_do')),
                     'sadzba' => 'Jarná akcia',
                     'cena_dospely' => 3.5,
                     'cena_dieta' => 2.5
@@ -131,27 +157,33 @@ class UserController extends Controller
             'cena_standard_dieta' => 4,
             'cena_standard_poplatok' => 0.66
         ]);
+
+//        dd($cennik);
+
         $pocet_dospely = 2;
         $pocet_deti_pristelka = 3;
         $pocet_deti = 1;
-//dd($cennik);
         $pocetOsob = $pocet_dospely + $pocet_deti + $pocet_deti_pristelka;
         $poplatok_pobyt = $pocetOsob * $cennik->get('cena_standard_poplatok');
 
         $ubytovanie_od = Carbon::parse('01.03.2018');
         $ubytovanie_do = Carbon::parse('15.03.2018');
 //        $pocetDni = $ubytovanie_od->diffInDays($ubytovanie_do);
-        $pocetNoci = [];
-
 
 //        $firstNight = $ubytovanie_od;
         $lastNight = $ubytovanie_do->subDay();
+
+        $tarify = $cennik->get('tarif');
+        $sadzby = collect($tarify)->get('sadzba');
+        dd($sadzby);
+
+        // mozno nebudem potrebovat premennu noc
         $noc = 1;
         while ($ubytovanie_od->lte($lastNight)) {
             $night_date_from = $ubytovanie_od->copy()->format('d-m-Y');
             $night_date_to = $ubytovanie_od->addDay()->format('d-m-Y');
 
-            $tarify = $cennik->get('tarif');
+//            $tarify = $cennik->get('tarif');
 
 //            $first3 = $tarify->where('sadzba','Prvé tri noci sú drahšie');
 
@@ -187,10 +219,9 @@ class UserController extends Controller
 //        $cennik->dd();
 //        {{ $vysledok }}
 
-        $vysledokCeny = "Sem pride vysledok";
-
         return view('vypocet')
-            ->with('vysledokCeny',$vysledokCeny);
+            ->with('poplatok_pobyt',$poplatok_pobyt)
+            ->with('pocetOsob',$pocetOsob);
     }
 
     public function  calculatePrice()
@@ -223,8 +254,14 @@ class UserController extends Controller
                 'priceForChildrenWithBed' => 2.5,
             ],
         ];
-        // porozbijame si akcie na intervaly (v zadani nebolo povedane, ktory ma prioritu, tak sa berie ten, ktory zacal neskor)
+//        dd($actions);
+
+        // porozbijame si akcie na intervaly (
+        // v zadani nebolo povedane, ktory ma prioritu, tak sa berie ten, ktory zacal neskor)
         $normalisedActions = $this->normaliseDates($actions);
+
+//        dd($normalisedActions);
+
         // vstupne premenne od zakaznika, neskor by sa mali posielat z nejakeho formularu a validovat
         $from = Carbon::create(2011, 3, 1);
         $to = Carbon::create(2011, 3, 15);
@@ -235,6 +272,8 @@ class UserController extends Controller
         $totalPersons = $adults + $children;
         $interval = new DateInterval('P1D');
         $dateRange = new DatePeriod($from, $interval, $to);
+
+        dd($dateRange);
 
         // samotny vypocet ceny cez akcie a mimo akcie
         $result = collect($dateRange)->map(function ($day) use ($normalisedActions, $prices) {
@@ -257,6 +296,8 @@ class UserController extends Controller
 
     private function sortDates($collection)
     {
+        Log::debug('Values before sorting', collect($collection)->values()->toArray());
+
         return collect($collection)->sortBy(function ($item) {
             // trochu hack zretazovat datumy pomocou oddelovaca
             return $item['from']->format('d-m-Y') . '#' . $item['to']->format('d-m-Y');

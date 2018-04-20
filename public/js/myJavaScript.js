@@ -86,12 +86,21 @@ function setForm(user) {
 
     // alert("Email : " + person['email']);
     document.getElementById("userID").innerText = "User ID " + person['id'];
+
+    document.getElementById("IDuser").setAttribute('value', person['id']);
     document.getElementById("formLogin").setAttribute('value', person['login']);
     document.getElementById("formEmail").setAttribute('value', person['email']);
-    document.getElementById("formPassword").setAttribute('value', person['password']);
+    if (person['password'] != null) {
+        document.getElementById("formPassword").setAttribute('value', person['password']);
+    }
     document.getElementById("password_confirm").setAttribute('value', person['password']);
     document.getElementById("meno").setAttribute('value', person['meno']);
-    document.getElementById("priezvisko").setAttribute('value', person['priezvisko']);
+    if (person['priezvisko'] != null) {
+        document.getElementById("priezvisko").setAttribute('value', person['priezvisko']);
+    } else {
+        console.log("Priezvisko : je null");
+        document.getElementById("priezvisko").setAttribute('value', " ");
+    }
     document.getElementById("ulica").setAttribute('value', person['ulica']);
     document.getElementById("cislo").setAttribute('value', person['cislo']);
     document.getElementById("psc").setAttribute('value', person['psc']);

@@ -18,6 +18,9 @@ use App\User;
 Route::get('/', function () {
     return redirect('/zadanie');
 });
+Route::get('/error', function () {
+    return response()->view('errors.503',[],503);
+});
 
 Route::get('/zadanie', function () {
     return view('zadanie');
@@ -27,9 +30,10 @@ Route::get('/test', 'UserController@calculatePrice');
 
 Auth::routes();
 
-// URL pre zadanie 1 a zadanie 2
+// URL pre zadanie 1
 Route::get('/users', 'UserController@index')->name('users');
 Route::post('/users', 'UserController@store')->name('users');
-Route::put('/users/{id}', 'UserController@update')->name('users');
+
+// URL pre zadanie 2
 Route::get('/vypocet-ceny-ubytovania', 'UserController@showZadanie');
 Route::post('/vypocet-ceny-ubytovania', 'UserController@vypocetCenyUbytovania');

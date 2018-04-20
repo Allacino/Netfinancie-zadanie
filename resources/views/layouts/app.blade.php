@@ -56,8 +56,8 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li><a class="nav-link" href="{{ route('login') }}">{{ __('Prihlasit') }}</a></li>
-                            <li><a class="nav-link" href="{{ route('register') }}">{{ __('Registrovat') }}</a></li>
+                            <li><a class="nav-link" href="{{ route('login') }}">{{ __('Prihlásiť') }}</a></li>
+                            <li><a class="nav-link" href="{{ route('register') }}">{{ __('Registrovať') }}</a></li>
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -65,10 +65,17 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ url('/users') }}">
+                                        Riešenie 1
+                                    </a>
+                                    <a class="dropdown-item" href="{{ url('/vypocet-ceny-ubytovania') }}">
+                                        Riešenie 2
+                                    </a>
+                                    <hr>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('Odhlásiť') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
