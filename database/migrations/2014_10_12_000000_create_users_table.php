@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->integer('cislo')->nullable();
             $table->string('psc')->nullable();
             $table->string('mesto')->nullable();
-            $table->string('login')->unique();
+            $table->string('login',100)->unique();
             $table->string('password');
             $table->string('email')->unique();
             $table->string('popis')->nullable();
@@ -38,7 +38,7 @@ class CreateUsersTable extends Migration
 
                 'password' => Hash::make('admin123'),//password_hash('admin123',1),
 //                'heslo' => md5('admin123'),
-                'email' => 'admin@netfinancie.com',
+                'email' => 'admin@admins.com',
         ]);
     }
 

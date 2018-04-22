@@ -85,28 +85,42 @@ function setForm(user) {
     var person = JSON.parse(user.getAttribute("data-user"));
 
     // alert("Email : " + person['email']);
-    document.getElementById("userID").innerText = "User ID " + person['id'];
-
-    document.getElementById("IDuser").setAttribute('value', person['id']);
-    document.getElementById("formLogin").setAttribute('value', person['login']);
-    document.getElementById("formEmail").setAttribute('value', person['email']);
-    if (person['password'] != null) {
-        document.getElementById("formPassword").setAttribute('value', person['password']);
-    }
+    setValue("userID","User ID " + person['id']);
+    // document.getElementById("userID").innerText = "User ID " + person['id'];
+    setValue("IDuser",person['id']);
+    // document.getElementById("IDuser").setAttribute('value', person['id']);
+    setValue("formLogin",person['login']);
+    // document.getElementById("formLogin").setAttribute('value', person['login']);
+    setValue("formEmail",person['email']);
+    // document.getElementById("formEmail").setAttribute('value', person['email']);
+    setValue("formPassword",person['password']);
+    document.getElementById("formPassword").setAttribute('value', person['password']);
+    setValue("password_confirm",person['password']);
     document.getElementById("password_confirm").setAttribute('value', person['password']);
-    document.getElementById("meno").setAttribute('value', person['meno']);
-    if (person['priezvisko'] != null) {
-        document.getElementById("priezvisko").setAttribute('value', person['priezvisko']);
+    setValue("meno",person['meno']);
+    // document.getElementById("meno").setAttribute('value', person['meno']);
+    setValue("priezvisko",person['priezvisko']);
+    // document.getElementById("priezvisko").setAttribute('value', person['priezvisko']);
+    setValue("ulica",person['ulica']);
+    // document.getElementById("ulica").setAttribute('value', person['ulica']);
+    setValue("cislo",person['cislo']);
+    // document.getElementById("cislo").setAttribute('value', person['cislo']);
+    setValue("psc",person['psc']);
+    // document.getElementById("psc").setAttribute('value', person['psc']);
+    setValue("mesto",person['mesto']);
+    // document.getElementById("mesto").setAttribute('value', person['mesto']);
+    setValue("popis",person['popis']);
+    // document.getElementById("popis").value = person['popis'];
+    setValue("stav",person['stav']);
+    // document.getElementById("stav").value =person['stav'];
+}
+
+function setValue(objID, value) {
+    if (value != null) {
+        document.getElementById(objID).setAttribute('value', value);
     } else {
-        console.log("Priezvisko : je null");
-        document.getElementById("priezvisko").setAttribute('value', " ");
+        document.getElementById(objID).setAttribute('value', '');
     }
-    document.getElementById("ulica").setAttribute('value', person['ulica']);
-    document.getElementById("cislo").setAttribute('value', person['cislo']);
-    document.getElementById("psc").setAttribute('value', person['psc']);
-    document.getElementById("mesto").setAttribute('value', person['mesto']);
-    document.getElementById("popis").value = person['popis'];
-    document.getElementById("stav").value =person['stav'];
 }
 
 function sortTable(n) {
