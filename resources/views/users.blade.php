@@ -8,11 +8,6 @@
                 <div class="card-header">RIEŠENIE zadania číslo 1</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
 
                     <h1 style="text-align: center">Zoznam užívateľov [{{ count($users) }}]</h1>
                         {{--header-fixed--}}
@@ -47,6 +42,23 @@
                             @endforelse
                             </tbody>
                         </table>
+
+                    @if (session('status'))
+                        <div class="alert alert-success alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Success!</strong> {{ session('status') }}
+                        </div>
+                    @endif
+                    {{--errors--}}
+                    @if($errors)
+                        @foreach($errors as $error)
+                            <div class="alert alert-danger alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Danger!</strong> {{ $error }}
+                            </div>
+                        @endforeach
+                    @endif
+
                     <h2 style="text-align: center">Detailné informácie užívateľa : <span id="userID"></span></h2>
                         <br>
                         <form id="userForm" method="POST" action="{{ route('users') }}">

@@ -44,7 +44,7 @@
                                 <td>3.5 €</td>
                             </tr>
                             <tr>
-                                <td><input name="t3_od" style="width: 80px" type="text" value="13.03.2018"></td>
+                                <td><input name="t3_od" style="width: 80px" type="text" value="05.03.2018"></td>
                                 <td><input name="t3_do" style="width: 80px" type="text" value="16.03.2018"></td>
                                 <td>Jarná akcia</td>
                                 <td>3.5 €</td>
@@ -71,24 +71,77 @@
                         </div>
 
                         <p>
-                            Ubytovanie od: <strong>01.03.2011</strong><br>
-                            ubytovanie do: <strong>15.03.2011</strong><br>
-                            Počet dospelých: <strong>2</strong><br>
-                            Počet detí: <strong>3</strong><br>
-                            Počet detí bez postele (na prístelku): <strong>1</strong><br>
+                            Ubytovanie od: <strong><input name="ubytovanie_od" style="width: 80px" type="text" value="01.03.2018"></strong><br>
+                            Ubytovanie do: <strong><input name="ubytovanie_do" style="width: 80px" type="text" value="15.03.2018"></strong><br>
+                            Počet dospelých: <strong><input name="pocet_dospely" style="width: 20px" type="text" value="2"></strong><br>
+                            Počet detí: <strong><input name="pocet_deti" style="width: 20px" type="text" value="3"></strong><br>
+                            Počet detí bez postele (na prístelku): <strong><input name="pocet_pristelka" style="width: 20px" type="text" value="1"></strong><br>
                         </p>
+
+                        @if (session('status'))
+                            <div class="alert alert-success alert-dismissible">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>Success!</strong> {{ session('status') }}
+                            </div>
+                        @endif
 
                     </form>
 
                         <div class="clearfix">
                             @isset($poplatok_pobyt)
                                 <hr>
-                                <h4 style="text-align: center">VYSLEDNA SUMA</h4>
+                                <h4 style="text-align: center">VYSLEDNA CENA ZA UBYTOVANIE</h4>
                             <p>
                                 Poplatok za celu rodinu na pobyt : <strong>{{ $poplatok_pobyt }} €</strong> (0,66 € * {{ $pocetOsob }} osôb)
                             </p>
                                 <p>
-                                    <h3><strong>Cena spolu: </strong>( x € * 2 dospelé osoby ) + ( y € * 3 deti ) + {{ $poplatok_pobyt }} € = <strong>koncova cena €</strong></h3>
+                                    <h3><strong>Cena spolu: </strong>( {{ $cena_dospely }} € * {{ $pocet_dospely }} dospelé osoby ) + ( {{ $cena_deti }} € * {{ $pocet_deti }} deti ) + {{ $poplatok_pobyt }} € = <strong>{{ $cena_konecna }} €</strong></h3>
+                                </p>
+                                <br>
+
+                                <h4 style="text-align: center">PREHĽAD JEDNOTLIVÝCH NOCÍ</h4>
+                                <P>
+                                <table id="tablenIGHTS" class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>Noc</th>
+                                        <th>Dátum od</th>
+                                        <th>Dátum do</th>
+                                        <th>Sadzba</th>
+                                        <th>Cena dospely</th>
+                                        <th>Cena dieťa</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach($nights as $noc)
+                                            <tr>
+
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $noc['night_date_from'] }}</td>
+                                                <td>{{ $noc['night_date_to'] }}</td>
+                                                <td>{{ $noc['sadzba'] }}</td>
+                                                <td>{{ $noc['cost_adults'] }} €</td>
+                                                <td>{{ $noc['cost_children'] }} €</td>
+                                            </tr>
+                                            @if ($loop->last)
+                                                <tr>
+                                                    <td></td>
+                                                    <td>{{ $ubytovanie_od }}</td>
+                                                    <td>{{ $ubytovanie_do }}</td>
+                                                    <td></td>
+                                                    <td>{{ $cena_dospely }} €</td>
+                                                    <td>{{ $cena_deti }} €</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4">Počet osôb : </td>
+                                                    <td>{{ $pocet_dospely }}</td>
+                                                    <td>{{ $pocet_deti }}</td>
+                                                </tr>
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+                                </table>
                                 </p>
 
                             @endisset
