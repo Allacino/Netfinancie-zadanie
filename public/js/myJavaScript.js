@@ -85,8 +85,8 @@ function setForm(user) {
     var person = JSON.parse(user.getAttribute("data-user"));
 
     // alert("Email : " + person['email']);
-    setValue("userID","User ID " + person['id']);
-    // document.getElementById("userID").innerText = "User ID " + person['id'];
+    // setValue("userID","User ID " + person['id']);
+    document.getElementById("userID").innerText = "User ID " + person['id'];
     setValue("IDuser",person['id']);
     // document.getElementById("IDuser").setAttribute('value', person['id']);
     setValue("formLogin",person['login']);
@@ -94,9 +94,9 @@ function setForm(user) {
     setValue("formEmail",person['email']);
     // document.getElementById("formEmail").setAttribute('value', person['email']);
     setValue("formPassword",person['password']);
-    document.getElementById("formPassword").setAttribute('value', person['password']);
+    // document.getElementById("formPassword").setAttribute('value', person['password']);
     setValue("password_confirm",person['password']);
-    document.getElementById("password_confirm").setAttribute('value', person['password']);
+    // document.getElementById("password_confirm").setAttribute('value', person['password']);
     setValue("meno",person['meno']);
     // document.getElementById("meno").setAttribute('value', person['meno']);
     setValue("priezvisko",person['priezvisko']);

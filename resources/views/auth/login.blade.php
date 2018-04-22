@@ -52,11 +52,11 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Prihlasit') }}
+                                    {{ __('Prihlásiť') }}
                                 </button>
                                 alebo
                                 <a class="btn btn-link" href="{{ route('register') }}">
-                                    {{ __('Registrovat') }}
+                                    {{ __('Registrovať') }}
                                 </a>
                             </div>
                         </div>

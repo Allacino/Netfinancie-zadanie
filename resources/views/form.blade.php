@@ -45,7 +45,7 @@
 </div>
 
 <div class="form-group row">
-    <label for="password_confirm" class="col-md-4 col-form-label text-md-right"><span style="color: red">* </span>{{ __('Potvrd heslo :') }}</label>
+    <label for="password_confirm" class="col-md-4 col-form-label text-md-right"><span style="color: red">* </span>{{ __('Potvrď heslo :') }}</label>
 
     <div class="col-md-6">
         <input id="password_confirm" type="password" class="form-control" name="password_confirmation" required>
@@ -100,7 +100,7 @@
 </div>
 {{--cislo--}}
 <div class="form-group row">
-    <label for="cislo" class="col-md-4 col-form-label text-md-right">{{ __('Cislo : ') }}</label>
+    <label for="cislo" class="col-md-4 col-form-label text-md-right">{{ __('Číslo : ') }}</label>
 
     <div class="col-md-6">
         <input id="cislo" type="text" class="form-control{{ $errors->has('cislo') ? ' is-invalid' : '' }}" name="cislo" value="{{ old('cislo') }}">
@@ -114,7 +114,7 @@
 </div>
 {{--psc--}}
 <div class="form-group row">
-    <label for="psc" class="col-md-4 col-form-label text-md-right">{{ __('PSC :') }}</label>
+    <label for="psc" class="col-md-4 col-form-label text-md-right">{{ __('PSČ :') }}</label>
 
     <div class="col-md-6">
         <input id="psc" type="text" class="form-control{{ $errors->has('psc') ? ' is-invalid' : '' }}" name="psc" value="{{ old('psc') }}">

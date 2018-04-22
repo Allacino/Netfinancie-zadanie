@@ -61,7 +61,7 @@ class UserController extends Controller
             Log::debug('User bol updatnuty : '.$user);
         } else {
             $request->validate([
-                'login' => 'required|string|max:255',
+                'login' => 'required|string|max:255|unique',
                 'email' => 'string|email|max:255|unique:users',
                 'password' => 'required|string|min:6|confirmed',
             ]);

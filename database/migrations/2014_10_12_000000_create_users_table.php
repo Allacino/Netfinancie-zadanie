@@ -35,7 +35,8 @@ class CreateUsersTable extends Migration
         DB::table('users')->insert(
             [
                 'login' => 'admin',
-
+                'meno' => 'Administrator',
+                'priezvisko' => 'Systemovy',
                 'password' => Hash::make('admin123'),//password_hash('admin123',1),
 //                'heslo' => md5('admin123'),
                 'email' => 'admin@admins.com',
