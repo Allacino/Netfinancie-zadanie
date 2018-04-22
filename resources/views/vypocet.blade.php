@@ -59,12 +59,12 @@
                         Štandardný poplatok za každú osobu je <b>0,66 €</b> na celu dobu ubytovania.
                     </p>
                         <hr>
-                    <h4 style="text-align: center">VSTUPNE HODNOTY</h4>
+                    <h4 style="text-align: center">VSTUPNÉ HODNOTY</h4>
                         <div class="float-right">
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary float-right">
-                                        {{ __('Vypocitat cenu') }}
+                                        {{ __('Vypočítať cenu') }}
                                     </button>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                         <div class="clearfix">
                             @isset($poplatok_pobyt)
                                 <hr>
-                                <h4 style="text-align: center">VYSLEDNA CENA ZA UBYTOVANIE</h4>
+                                <h4 style="text-align: center">VÝSLEDNÁ CENA ZA UBYTOVANIE</h4>
                             <p>
                                 Poplatok za celu rodinu na pobyt : <strong>{{ $poplatok_pobyt }} €</strong> (0,66 € * {{ $pocetOsob }} osôb)
                             </p>

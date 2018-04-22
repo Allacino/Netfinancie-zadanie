@@ -74,20 +74,20 @@ th, td {
     padding:0px 0px;
     /*border:1px solid #000;*/
 }
-thead {
+.theadScrollable {
     /*background:#f9f9f9;*/
     display:table;
     width:100%;
     /*width:calc(100% - 18px);*/
 }
-tbody {
+.tbodyScrollable {
     height:300px;
     overflow:auto;
     overflow-x:hidden;
     display:block;
     width:100%;
 }
-tbody tr {
+.tbodyScrollable tr {
     display:table;
     width:100%;
     table-layout:fixed;

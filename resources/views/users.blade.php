@@ -14,7 +14,7 @@
                         <table id="tableUsers" class="table">
                         {{--<table id="tableUsers" class="table table-hover">--}}
                         {{--<table class="scroll">--}}
-                            <thead>
+                            <thead class="theadScrollable">
                             <tr>
                                 {{--<th>#</th>--}}
                                 <th onclick="sortTable(0)">LOGIN <i class="fas fa-sort float-right"></i></th>
@@ -24,7 +24,7 @@
                             </tr>
                             </thead>
 
-                            <tbody>
+                            <tbody class="tbodyScrollable">
 
                             @forelse ($users as $user)
                                 <tr class="trBody" value="{{ $user->id }}" data-user="{{ $user }}" onclick="setForm(this)">
