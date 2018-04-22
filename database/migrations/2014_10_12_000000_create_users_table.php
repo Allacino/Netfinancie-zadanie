@@ -37,8 +37,7 @@ class CreateUsersTable extends Migration
                 'login' => 'admin',
                 'meno' => 'Administrator',
                 'priezvisko' => 'Systemovy',
-                'password' => Hash::make('admin123'),//password_hash('admin123',1),
-//                'heslo' => md5('admin123'),
+                'password' => Hash::make('admin123'),    //password_hash('admin123',1),
                 'email' => 'admin@admins.com',
         ]);
     }

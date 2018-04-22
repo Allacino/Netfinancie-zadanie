@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use DateInterval;
 use DatePeriod;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
@@ -57,7 +58,19 @@ class UserController extends Controller
             Log::debug('Request je validny ');
 
             $user = User::find($id);
-            $user->update($request->all());
+            $user->meno = $request['meno'];
+            $user->priezvisko = $request['priezvisko'];
+            $user->ulica = $request['ulica'];
+            $user->cislo = $request['cislo'];
+            $user->psc = $request['psc'];
+            $user->mesto = $request['mesto'];
+            $user->popis = $request['popis'];
+            $user->stav = $request['stav'];
+            $user->login = $request['login'];
+            $user->email = $request['email'];
+            $user->password = Hash::make($request['password']);
+            $user->save();
+
             Log::debug('User bol updatnuty : '.$user);
         } else {
             $request->validate([
@@ -66,7 +79,20 @@ class UserController extends Controller
                 'password' => 'required|string|min:6|confirmed',
             ]);
             Log::debug('Request je validny ');
-            $user = User::create($request->all());
+//            $user = User::create($request->all());
+            $user = User::create([
+                'meno' => $request['meno'],
+                'priezvisko' => $request['priezvisko'],
+                'ulica' => $request['ulica'],
+                'cislo' => $request['cislo'],
+                'psc' => $request['psc'],
+                'mesto' => $request['mesto'],
+                'popis' => $request['popis'],
+                'stav' => $request['stav'],
+                'login' => $request['login'],
+                'email' => $request['email'],
+                'password' => Hash::make($request['password'])
+            ]);
             Log::debug('User bol vytvoreny : ' . $user);
         }
 
