@@ -250,6 +250,6 @@ class UserController extends Controller
             ->with('cena_dospely',$cena_dospely)
             ->with('cena_deti',$cena_deti)
             ->with('cena_konecna',$cena_konecna)
-            ->with('status','Cana za ubytovanie bola úspešne prepočítaná.');
+            ->with('status','Cena za ubytovanie bola úspešne prepočítaná.');
     }
 }

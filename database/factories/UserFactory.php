@@ -28,8 +28,8 @@ $factory->define(App\User::class, function (Faker $faker) {
         'stav' => $faker->randomElement(['a','b','c']),
         'login' => $meno . $priezvisko,
         'email' => $faker->unique()->safeEmail,
-        'rememberToken' => str_random(10),
+//        'rememberToken' => str_random(10),
 //            'password' => Hash::make($data['password']),
-        'heslo' => Hash::make('Heslo123') // Pole `heslo` je v DB zašifrované pomocou MD5
+        'password' => Hash::make('Heslo123') // Pole `heslo` je v DB zašifrované pomocou MD5
     ];
 });
