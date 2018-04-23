@@ -69,6 +69,7 @@ class UserController extends Controller
             $user->login = $request['login'];
             $user->email = $request['email'];
             $user->password = Hash::make($request['password']);
+            $user->remember_token = str_random(10);
             $user->save();
 
             Log::debug('User bol updatnuty : '.$user);
@@ -91,7 +92,8 @@ class UserController extends Controller
                 'stav' => $request['stav'],
                 'login' => $request['login'],
                 'email' => $request['email'],
-                'password' => Hash::make($request['password'])
+                'password' => Hash::make($request['password']),
+                'remember_token' => str_random(10),
             ]);
             Log::debug('User bol vytvoreny : ' . $user);
         }
