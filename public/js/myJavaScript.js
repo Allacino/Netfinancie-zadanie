@@ -111,8 +111,8 @@ function setForm(user) {
     // document.getElementById("mesto").setAttribute('value', person['mesto']);
     setValue("popis",person['popis']);
     // document.getElementById("popis").value = person['popis'];
-    setValue("stav",person['stav']);
-    // document.getElementById("stav").value =person['stav'];
+    // setValue("stav",person['stav']);
+    document.getElementById("stav").value =person['stav'];
 }
 
 function setValue(objID, value) {
